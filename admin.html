@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Varaki Services and Industries</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+    <header class="d-flex justify-content-between align-items-center p-3 bg-light">
+        <i class='bx bx-menu' id="menu-icon"></i>
+        <div class="logo">
+            <a href="#Home"><img src="Frame 29.png" alt="Logo"></a>
+        </div>
+        <ul class="navbar nav">
+            <li class="nav-item"><a class="nav-link" href="Chooseyourservice.html">Service requests</a></li>
+            <li class="nav-item"><a class="nav-link" href="solarcalculatorform.html">solar data</a></li>
+            <li class="nav-item"><a class="nav-link" href="clientcallback.html">communication requests</a></li>
+            <li class="nav-item"><a class="nav-link" href="userdata.html">sign up data</a></li>
+            <li class="nav-item"><a class="nav-link" href="index.html">home</a></li>
+            
+        </ul>
+    </header>
+    <section class="notifications" id="notifications">
+        <h2>Notifications</h2>
+        <ul id="notification-list"></ul>
+    </section>
+  
+    <script>
+    // Fetch notifications and display them
+    fetch('/get-notifications')
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                const notificationList = document.getElementById('notification-list');
+                data.data.forEach(notification => {
+                    const li = document.createElement('li');
+                    li.textContent = notification.message + ' (' + new Date(notification.created_at).toLocaleString() + ')';
+                    notificationList.appendChild(li);
+                });
+            } else {
+                console.error(data.error);
+            }
+        })
+        .catch(error => console.error('Error fetching notifications:', error));
+
+
+        // Logic to fetch data and populate the tables dynamically
+        async function fetchData() {
+            try {
+                const response = await fetch('/fetch-solar-data');
+                const data = await response.json();
+                populateTables(data);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        }
+
+        function populateTables(data) {
+            const solarDataTable = document.getElementById('solar-data-table').getElementsByTagName('tbody')[0];
+            data.forEach(item => {
+                const row = solarDataTable.insertRow();
+                row.insertCell(0).innerText = item.id; // Assuming 'id' is the unique identifier
+                row.insertCell(1).innerText = item.serviceType; // Change according to your field names
+                row.insertCell(2).innerText = item.timestamp; // Change according to your field names
+                // Add more cells as necessary
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', fetchData);
+        
+    </script>
+</body>
+</html>
