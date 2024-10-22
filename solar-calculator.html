@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Varaki Services and Industries</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="solar-calculator.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+    <header class="d-flex justify-content-between align-items-center p-3 bg-light">
+        <i class='bx bx-menu' id="menu-icon"></i>
+        <div class="logo">
+            <a href="index.html"><img src="Frame 29.png" alt="Logo"></a>
+        </div>
+        <ul class="navbar nav">
+            <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="index.html">About Us</a></li>
+            <li class="nav-item"><a class="nav-link" href="services.html">Services</a></li>
+            <li class="nav-item"><a class="nav-link" href="index.html">Customers</a></li>
+            <li class="nav-item"><a class="nav-link" href="solar-calculator.html">Solar Calculator</a></li>
+            <li class="nav-item"><a class="nav-link" href="contact-us.html">Contact</a></li>
+            <li class="nav-item"><a class="nav-link" href="newsletter.html">Newsletter</a></li>
+            <li class="nav-item"><a class="nav-link" href="Sign-Up.html">Sign Up</a></li>
+        </ul>
+    </header>
+    <main>
+        <div class="calculator-container">
+            <form id="solar-calculator-form" action="/submit-calculator" method="post">
+                <div class="input-container">
+                    <div class="input-group">
+                        <label for="panel-capacity">Desired Solar Panel Capacity (kW):</label>
+                        <input type="number" id="panel-capacity" name="panel-capacity" placeholder="Enter panel capacity" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="roof-area">Total Roof Area (sq ft):</label>
+                        <input type="number" id="roof-area" name="roof-area" placeholder="Enter roof area" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="budget">Budget (Rs):</label>
+                        <input type="number" id="budget" name="budget" placeholder="Enter budget" required>
+                    </div>
+                </div>
+                <div class="state-selection">
+                    <p>Select State and Customer Category:</p>
+                    <div class="input-group">
+                        <label for="state">State:</label>
+                        <select id="state" name="state" required>
+                            <option value="">Select State</option>
+                            <option value="tamil-nadu">Tamil Nadu</option>
+                            <option value="kerala">Kerala</option>
+                            <option value="andhra-pradesh">Andhra Pradesh</option>
+                            <option value="telangana">Telangana</option>
+                            <option value="karnataka">Karnataka</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="customer-category">Customer Category:</label>
+                        <select id="customer-category" name="customer-category" required>
+                            <option value="">Select Category</option>
+                            <option value="residential">Residential</option>
+                            <option value="commercial">Commercial</option>
+                            <option value="industrial">Industrial</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="electricity-cost">
+                    <div class="input-group">
+                        <label for="electricity-cost">Average Electricity Cost (Rs./kWh):</label>
+                        <input type="number" id="electricity-cost" name="electricity-cost" placeholder="Enter cost" required>
+                    </div>
+                </div>
+                
+                <button type="button" id="calculate-button">Calculate</button>
+                <div id="results-container"></div>
+                <input type="hidden" id="calculated-savings" name="calculated-savings">
+                <input type="hidden" id="calculated-efficiency" name="calculated-efficiency">
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+    </main>
+
+    <!-- Modal for Success Message -->
+    <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="successModalLabel">Success</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Your data has been submitted successfully!
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('calculate-button').addEventListener('click', function() {
+            const panelCapacity = parseFloat(document.getElementById('panel-capacity').value);
+            const roofArea = parseFloat(document.getElementById('roof-area').value);
+            const budget = parseFloat(document.getElementById('budget').value);
+            const electricityCost = parseFloat(document.getElementById('electricity-cost').value);
+
+            if (isNaN(panelCapacity) || isNaN(roofArea) || isNaN(budget) || isNaN(electricityCost)) {
+                alert('Please enter valid values.');
+                return;
+            }
+
+            // Perform calculations
+            const estimatedSavings = panelCapacity * electricityCost; // Example calculation
+            const efficiency = (panelCapacity / roofArea) * 100; // Example efficiency calculation
+
+            // Display results
+            document.getElementById('results-container').innerHTML = `
+                <p>Estimated Savings: Rs. ${estimatedSavings.toFixed(2)}</p>
+                <p>Estimated Efficiency: ${efficiency.toFixed(2)}%</p>
+            `;
+            // Set calculated values to hidden inputs
+            document.getElementById('calculated-savings').value = estimatedSavings.toFixed(2);
+            document.getElementById('calculated-efficiency').value = efficiency.toFixed(2);
+        });
+
+        // Handle form submission with AJAX
+        document.getElementById('solar-calculator-form').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent default form submission
+
+            const formData = new FormData(this);
+
+            fetch('/submit-calculator', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Show success modal
+                    const successModal = new bootstrap.Modal(document.getElementById('successModal'));
+                    successModal.show();
+                } else {
+                    alert('Error submitting form: ' + data.error);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('There was an error submitting the form. Please try again.');
+            });
+        });
+    </script>
+      <section class="green-divider"></section>
+      <section class="newsletter">
+          <h2>Subscribe to our <br>newsletter</h2>
+          <form action="#">
+              <input type="email" placeholder="Enter Your Email...." required>
+              <input type="submit" value="Subscribe" class="email-btn">
+          </form>
+      </section>
+      <section class="footer">
+          <div class="footer-box">
+              <a href="index.html"><img src="Frame 29.png" style="max-width:100%; height:auto;" alt="Logo"></a>
+              <div class="social">
+                  <a href="#"><i class='bx bxl-facebook'></i></a>
+                  <a href="#"><i class='bx bxl-twitter'></i></a>
+                  <a href="#"><i class='bx bxl-instagram'></i></a>
+                  <a href="#"><i class='bx bxl-youtube'></i></a>
+              </div>
+          </div>
+          <div class="footer-box">
+              <h3>Support</h3>
+              <ul>
+                  <li><a href="services.html">Services</a></li>
+                  <li><a href="contact-us.html">Help</a></li>
+                  <li><a href="submit.html">Submit Your Application</a></li>
+              </ul>
+          </div>
+          <div class="footer-box">
+              <h3>View Guides</h3>
+              <ul>
+                  <li><a href="terms.html">Terms and Conditions</a></li>
+                  <li><a href="newsletter.html">Our Blogs</a></li>
+                  <li><a href="#">Our Partners</a></li>
+                  <li><a href="#">Brochure</a></li>
+              </ul>
+          </div>
+          <div class="footer-box contact">
+              <h3>Contact</h3>
+              <span>Old No:110,New No: 37, Chateau D'AMPA Building, 5th Floor, Nelson Manickam Road, Aminjikarai, Chennai - 600 030</span>
+              <span>044-4856 3101</span>
+              <span><i class='bx bxs-envelope'></i>info@rmitha.com</span>
+          </div>
+      </section>
+      <div class="copyright">
+          <p>&#169; Rmitha Power & Infra All Rights Reserved.</p>
+      </div>
+     
+      <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  </body>
+</html>
