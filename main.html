@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Portfolio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+            scroll-behavior: smooth;
+        }
+        body {
+            background: #f4f4f4;
+            color: #333;
+        }
+        header {
+            background: #333;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+        }
+        nav {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            padding: 10px;
+        }
+        nav a:hover {
+            color: #f4a261;
+        }
+        section {
+            padding: 60px 20px;
+            max-width: 800px;
+            margin: auto;
+            text-align: center;
+        }
+        .hero {
+            background: #333;
+            color: white;
+            padding: 100px 20px;
+        }
+        .hero h1 {
+            font-size: 2.5em;
+        }
+        .btn {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background: #f4a261;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .btn:hover {
+            background: #e76f51;
+        }
+        .projects img {
+            width: 100%;
+            max-width: 300px;
+            border-radius: 5px;
+            margin: 10px;
+        }
+        .contact input, .contact textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .contact button {
+            background: #f4a261;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .contact button:hover {
+            background: #e76f51;
+        }
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: #333;
+            color: white;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <nav>
+        <a href="#about">About</a>
+        <a href="#projects">Projects</a>
+        <a href="#skills">Skills</a>
+        <a href="#contact">Contact</a>
+    </nav>
+</header>
+
+<section class="hero">
+    <h1>Hi, I'm [Your Name]</h1>
+    <p>Web Developer | Designer | Creator</p>
+    <a href="#contact" class="btn">Hire Me</a>
+</section>
+
+<section id="about">
+    <h2>About Me</h2>
+    <p>I'm a passionate web developer with expertise in front-end and back-end development.</p>
+</section>
+
+<section id="projects">
+    <h2>Projects</h2>
+    <div class="projects">
+        <img src="https://via.placeholder.com/300" alt="Project 1">
+        <img src="https://via.placeholder.com/300" alt="Project 2">
+        <img src="https://via.placeholder.com/300" alt="Project 3">
+    </div>
+</section>
+
+<section id="skills">
+    <h2>Skills</h2>
+    <p>HTML, CSS, JavaScript, React, Node.js, Python</p>
+</section>
+
+<section id="contact">
+    <h2>Contact Me</h2>
+    <form class="contact">
+        <input type="text" placeholder="Your Name" required>
+        <input type="email" placeholder="Your Email" required>
+        <textarea rows="5" placeholder="Your Message" required></textarea>
+        <button type="submit">Send Message</button>
+    </form>
+</section>
+
+<footer>
+    <p>© 2025 [Your Name]. All Rights Reserved.</p>
+</footer>
+
+</body>
+</html>
