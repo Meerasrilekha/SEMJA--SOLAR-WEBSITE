@@ -1,4 +1,4 @@
-#SEMJA -SOLAR WEBSITE
+SEMJA -SOLAR WEBSITE
 
 Developed a fully responsive website for Rmitha - Varaki Solar Services, starting from wireframing
 and design, to backend development and database integration. The website featured an interactive
